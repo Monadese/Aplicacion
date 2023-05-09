@@ -14,12 +14,75 @@
     <h1>Mi PWA</h1>
     <img id="photo" class="photo">
     <input type="file" accept="image/*" capture="camera" id="camera" />
+    <button onclick="Localizacion()">Obtener ubicación</button>    <br>
+    <video id="videoElement" autoplay></video>
+    <br>
+    <a href=”https://wa.me/5491112345678”>Escríbenos por WhatsApp</a>
+    <p id="connectionStatus">Estado de la conexión: </p>
     <script>
         const photo = document.querySelector('#photo');
         const camera = document.querySelector('#camera');
         camera.addEventListener('change', function (e) {
             photo.src = URL.createObjectURL(e.target.files[0]);
+            
         });
+        // Localizacion:
+        function Localizacion() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(Posicion);
+        } else {
+            alert("La geolocalización no está soportada en este navegador.");
+        }
+        }
+
+        function Posicion(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;     
+
+        console.log("Latitud: " + latitude);
+        console.log("Longitud: " + longitude);
+        }
+
+        //video camara
+       
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+
+        const constraints = {
+            video: true 
+        };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+         
+            const videoElement = document.getElementById('videoElement');
+            videoElement.srcObject = stream;
+            })
+            .catch(function(error) {
+           
+            console.error('Error al acceder a la cámara: ', error);
+            });
+        } else {
+        console.error('La API de MediaDevices no es compatible en este navegador.');
+        
+        }
+
+        // Perdida de conexion: 
+        var connectionStatusElement = document.getElementById("connectionStatus");
+
+        updateConnectionStatus();
+
+        // Agregar eventos para detectar cambios en la conexión
+        window.addEventListener("online", updateIndicator);
+        window.addEventListener("offline", updateIndicator);
+
+        function updateIndicator() {
+            if (navigator.onLine) {
+                connectionStatusElement.innerHTML = "Estado de la conexión: Conectado";
+            } else {
+                connectionStatusElement.innerHTML = "Estado de la conexión: Desconectado";
+            }
+        }
+
     </script>
 
 </body>

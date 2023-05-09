@@ -1,6 +1,6 @@
 {
     "lang": "en-us",
-    "name": "Mi PWA",
+    "name": "---Mi PWA----",
     "short_name": "Mi primera aplicacion PWA",
     "description": "Un ejemplo de aplicacion web",
     "start_url": "/",
@@ -13,5 +13,9 @@
             "src": "/imagen.png",
             "sizes": "512x512"
         }
+    ],
+    "permissions": [
+          "geolocation"
     ]
+
 }
